@@ -1,0 +1,19 @@
+ public function register():bool{
+            $statement = "INSERT INTO usuarios(nombre,apellidos,email,password,rol,confirmado) values(:nombre,:apellidos,:email,:password,:rol,:confirmado);";
+            try{
+                $this -> conexion -> consulta($statement);
+                return $this-> conexion -> filasAfectadas() > 0;
+                }catch(\PDOException $e){
+                    exit($e -> getMessage());
+                    return false;
+                }
+        }
+
+        public function validarDatos(mixed $data): bool{
+                if(isset($data -> nombre) && isset($data -> apellidos) && isset($data -> email) && isset($data -> password)){
+                        return true; 
+                }else{
+                        return false;
+                }
+        }
+   

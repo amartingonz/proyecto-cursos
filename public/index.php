@@ -6,6 +6,8 @@
     use Lib\ResponseHttp;
     use Lib\Router;
     use Controllers\ApiponenteController;
+    use Controllers\UsuarioController;
+    USE Models\Usuario;
 
 
     $dotenv = Dotenv::createImmutable(__DIR__);
@@ -28,9 +30,9 @@
          (new ApiponenteController()) -> getPonente($ponenteid);
     });
     
-//     Router::add('GET','proyecto-cursos/usuarios/register',function(){
-//         (new ApiponenteController()) -> getPonente();
-//    });
+     Router::add('POST','proyecto-cursos/usuarios/register',function(){
+         (new UsuarioController()) -> register(new Usuario());
+   });
 
     
     Router::dispatch();

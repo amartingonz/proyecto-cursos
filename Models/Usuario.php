@@ -234,13 +234,13 @@ class Usuario{
 
        
         public function register(array $data){
-            $statement = "INSERT INTO usuarios(nombre,apellidos,email,password,rol,confirmado,token,token_esp) values(:nombre,:apellidos,:email,:password,:rol,:confirmado,:token,:token_esp);";
+            $statement = "INSERT INTO usuarios(nombre,apellidos,email,password,rol,confirmado,token,token_esp) values(:nombre,:apellidos,:email,:password,user,:confirmado,NULL,NULL);";
             $consult = $this -> conexion -> prepara($statement);
+            
             $consult -> bindParam(':nombre',$data['nombre'],PDO::PARAM_STR);
             $consult -> bindParam('apellidos',$data['apellidos'],PDO::PARAM_STR);
             $consult -> bindParam(':email',$data['email'],PDO::PARAM_STR);
-            $consult -> bindParam(':password',$data['password'],PDO::PARAM_STR);
-            $consult -> bindParam(':rol',$data['rol'],PDO::PARAM_STR);
+            $consult -> bindParam(':password',password_hash($data['password'],PASSWORD_BCRYPT,['cost' => 4]),PDO::PARAM_STR);
             $consult -> bindParam(':confirmado',$data['confirmado'],PDO::PARAM_STR);
 
             try{
