@@ -1,41 +1,22 @@
 <?php
     namespace Models;
-
-    use Exception;
+    use Lib\BaseDatos;
     use PDO;
     use PDOException;
-    use Lib\BaseDatos;
+    class Usuario extends BaseDatos{
+        private string $id;
+        private string $nombre;
+        private string $apellidos;
+        private string $email;
+        private string $password;
+        private string $rol;
+        private bool $confirmado;
+        private string $token;
+        private string $token_esp;
 
-
-
-class Usuario{
-    
-            private string $id;
-            private string $nombre;
-            private string $apellidos;
-            private string $email;
-            private string $password;
-            private string $rol;
-            private string $confirmado;
-            private string $token;
-            private string $token_esp;
-
-            private BaseDatos $conexion;
-
-            public function __construct(string $id,string $nombre,string $apellidos,string $email,string $password,string $rol,string $confirmado,string $token,string $token_esp)
-            {
-                $this -> conexion = new BaseDatos();
-                $this -> id = $id;
-                $this -> nombre = $nombre;
-                $this -> apellidos = $apellidos;
-                $this -> email = $email;
-                $this -> password = $password;
-                $this -> rol = $rol;
-                $this -> confirmado = $confirmado;
-                $this -> token = $token;
-                $this -> token_esp = $token_esp;
-
-            }
+        public function __construct(){
+            parent::__construct();
+        }
 
     public static function fromArray(array $data):Ponente{
         return new Ponente(
@@ -155,7 +136,7 @@ class Usuario{
         /**
          * Get the value of email
          */ 
-        public function getEmail()
+        public function getEmail():string
         {
                 return $this->email;
         }
@@ -165,7 +146,7 @@ class Usuario{
          *
          * @return  self
          */ 
-        public function setEmail($email)
+        public function setEmail(string $email)
         {
                 $this->email = $email;
 
@@ -175,7 +156,7 @@ class Usuario{
         /**
          * Get the value of apellidos
          */ 
-        public function getApellidos()
+        public function getApellidos():string
         {
                 return $this->apellidos;
         }
@@ -185,7 +166,7 @@ class Usuario{
          *
          * @return  self
          */ 
-        public function setApellidos($apellidos)
+        public function setApellidos(string $apellidos)
         {
                 $this->apellidos = $apellidos;
 
@@ -195,7 +176,7 @@ class Usuario{
         /**
          * Get the value of nombre
          */ 
-        public function getNombre()
+        public function getNombre():string
         {
                 return $this->nombre;
         }
@@ -205,7 +186,7 @@ class Usuario{
          *
          * @return  self
          */ 
-        public function setNombre($nombre)
+        public function setNombre(string $nombre)
         {
                 $this->nombre = $nombre;
 
@@ -215,7 +196,7 @@ class Usuario{
         /**
          * Get the value of id
          */ 
-        public function getId()
+        public function getId():int
         {
                 return $this->id;
         }
@@ -225,7 +206,7 @@ class Usuario{
          *
          * @return  self
          */ 
-        public function setId($id)
+        public function setId(int $id)
         {
                 $this->id = $id;
 
@@ -233,23 +214,33 @@ class Usuario{
         }
 
        
-        public function register(array $data){
-            $statement = "INSERT INTO usuarios(nombre,apellidos,email,password,rol,confirmado,token,token_esp) values(:nombre,:apellidos,:email,:password,user,:confirmado,NULL,NULL);";
-            $consult = $this -> conexion -> prepara($statement);
-            
-            $consult -> bindParam(':nombre',$data['nombre'],PDO::PARAM_STR);
-            $consult -> bindParam('apellidos',$data['apellidos'],PDO::PARAM_STR);
-            $consult -> bindParam(':email',$data['email'],PDO::PARAM_STR);
-            $consult -> bindParam(':password',password_hash($data['password'],PASSWORD_BCRYPT,['cost' => 4]),PDO::PARAM_STR);
-            $consult -> bindParam(':confirmado',$data['confirmado'],PDO::PARAM_STR);
-
-            try{
-                $statement = $this -> conexion -> consulta($statement);
-                return $statement -> fetchAll(\PDO::FETCH_ASSOC);
-                }catch(\PDOException $e){
-                    exit($e -> getMessage());
+        public function register($data){
+                $sql = $this->prepara("INSERT INTO usuarios (id,nombre,apellidos,email,password,rol,confirmado,token,token_esp) VALUES (id,:nombre,:apellidos,:email,:password,'user',0,NULL,NULL)");
+                $sql->bindParam(':nombre',$data->nombre);
+                $sql->bindParam(':apellidos',$data->apellidos);
+                $sql->bindParam(':email',$data->email);
+                $sql->bindParam(':password',$data->password);
+                try{
+                    $sql->execute();
+                    return true;
+                }catch(PDOException $e){
+                    return false;
                 }
         }
 
+        public function comprobar_email($data){
+                $result = false;
+                $sql = $this->prepara("SELECT * FROM usuarios WHERE email = :email");
+                $sql->bindParam(':email',$data->email);
+                try{
+                    $sql->execute();
+                    if($sql && $sql->rowCount() == 1){
+                        $result = true;
+                    }
+                }catch(PDOException $e){
+                        $result = false;
+                } 
+                return $result;
+        }
    
 }
