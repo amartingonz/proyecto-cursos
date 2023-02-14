@@ -1,8 +1,12 @@
 <?php
     namespace Controllers;
+
+    use Firebase\JWT\JWT;
     use Models\Usuario;
     use Lib\ResponseHttp;
     use Lib\Pages;
+    use Lib\Security;
+
 
     class UsuarioController{
 
@@ -38,9 +42,50 @@
                 }else{
                     $response = json_encode($UsuarioArr);
                 }
-                $this -> pages -> render('read',['response' => $response]);
+                $this -> pages -> render('read',['response' => $response]); 
+        }
+
+        public function login(){
+            
+            if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                $data = json_decode(file_get_contents("php://input"));
+
+                $datos = $this -> usuario -> login($data->email);
                 
-           
+                $UsuarioArr = [];
+                if($datos != []){
+                    if(password_verify($data -> password,$datos[4])){
+                
+                        $usuario = new Usuario($datos);
+                        $UsuarioArr["message"] = json_decode(ResponseHttp::statusMessage(202,'Usuario logeado correctamente'));
+                        $UsuarioArr["Usuario"] = [];
+                        // crear la clave secreta
+                        $key = Security::claveSecreta();
+                        // crear el token a traves de la clave $key y el email
+                        $token = Security::crearToken($key,$data->email);
+                        // encode del token
+                        $encodedToken = JWT::encode($token, $key, 'HS256');
+                        //añadir el token al usuario
+                        $usuario -> guardarToken($datos[0],$encodedToken,$token['exp']);
+                        $usuario -> setToken($encodedToken);
+                        $usuario-> setToken_esp($token['exp']);
+                        http_response_code(200);
+                        $response["message"] = json_decode(ResponseHttp::StatusMessage(200, 'OK'));
+                        $user = $datos;
+                        unset($user[4]);
+                        $resultado = ["response" => $response, "user" => $user];
+                        $this->pages->render('read', ['response' => json_encode($resultado)]);
+                        return null;
+                        }else{
+                            $UsuarioArr["message"] = json_decode(ResponseHttp::statusMessage(503, 'Las contraseñas no coinciden'));
+                            $UsuarioArr["Usuario"] = []; 
+                    }} if($UsuarioArr==[]){
+                        $response = json_encode($UsuarioArr["message"]);
+                    }else{
+                        $response = json_encode($UsuarioArr);
+                    }
+                    $this -> pages -> render('read',['response' => $response]); 
+                }
         }
     }
 

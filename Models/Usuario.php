@@ -216,10 +216,11 @@
        
         public function register($data){
                 $sql = $this->prepara("INSERT INTO usuarios (id,nombre,apellidos,email,password,rol,confirmado,token,token_esp) VALUES (id,:nombre,:apellidos,:email,:password,'user',0,NULL,NULL)");
+                $password = password_hash($data -> password,PASSWORD_BCRYPT,['cost' => 4]);
                 $sql->bindParam(':nombre',$data->nombre);
                 $sql->bindParam(':apellidos',$data->apellidos);
                 $sql->bindParam(':email',$data->email);
-                $sql->bindParam(':password',$data->password);
+                $sql->bindParam(':password',$password);
                 try{
                     $sql->execute();
                     return true;
@@ -242,5 +243,38 @@
                 } 
                 return $result;
         }
-   
+
+        public function login(string $email){
+                // PARA COMPROBAR QUE EXISTE EL USUARIO
+                $sql = ("SELECT * FROM usuarios WHERE email = :email");
+                $consult = $this -> prepara($sql);
+                $consult -> bindParam(':email',$email);
+                try{
+                    $consult-> execute();
+                    $datos = $consult -> fetchAll();
+                    if(count($datos) != 0){
+                        $datos_encontrados = array($datos[0]['id'],$datos[0]['nombre'],$datos[0]['apellidos'],$datos[0]['email'],$datos[0]['password'],$datos[0]['rol'],$datos[0]['token'],$datos[0]['token_esp']);
+                        return $datos_encontrados;
+                    }else{
+                        return [];
+                    }
+                }catch(PDOException $err){
+                    echo "Error".$err -> getMessage();
+                }
+            }
+
+
+
+        public function guardarToken($id,$token,$token_esp){
+                $sql = $this -> prepara("UPDATE usuarios SET token = :token, token_esp=:token_esp WHERE id = :id");
+                $sql->bindParam(':id',$id);
+                $sql->bindParam(':token',$token);
+                $sql->bindParam(':token_esp',$token_esp);
+                try{
+                    $sql->execute();
+                    return true;
+                }catch(PDOException $e){
+                    return false;
+                }
+        }
 }

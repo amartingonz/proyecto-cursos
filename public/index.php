@@ -33,7 +33,9 @@
     Router::add('POST','/usuario/register',function(){
          (new UsuarioController()) -> register();
    });
-
+   Router::add('POST','/usuario/login',function(){
+    (new UsuarioController()) -> login();
+});
     
     Router::dispatch();
 

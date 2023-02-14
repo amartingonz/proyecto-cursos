@@ -5,6 +5,8 @@
     use Models\Ponente;
     use Lib\ResponseHttp;
     use Lib\Pages;
+    use Lib\Security;
+
 
     class ApiponenteController{
 
@@ -21,24 +23,29 @@
 
 
         public function getAll(){
-            $ponentes = $this -> ponente->findAll();
-            $PonenteArr = [];
-            if(!empty($ponentes)){
-                $PonenteArr["message"] = json_decode(ResponseHttp::statusMessage(202,'OK'));
-                $PonenteArr["Ponentes"] = [];
-                foreach($ponentes as $fila){
-                    $PonenteArr["Ponentes"][] = $fila;
+            // EL IF TOKEN ESTE ESTA RARO PREGUNTAR MAÑANA
+            if(Security::getToken()){
+                $ponentes = $this -> ponente->findAll();
+                $PonenteArr = [];
+                if(!empty($ponentes)){
+                    $PonenteArr["message"] = json_decode(ResponseHttp::statusMessage(202,'OK'));
+                    $PonenteArr["Ponentes"] = [];
+                    foreach($ponentes as $fila){
+                        $PonenteArr["Ponentes"][] = $fila;
+                    }
+                }else{
+                    $PonenteArr["message"] = json_decode(ResponseHttp::statusMessage(400, 'No hay ponentes'));
+                    $PonenteArr["Ponentes"] = [];
                 }
+                if($PonenteArr==[]){
+                    $response = json_encode(ResponseHttp::statusMessage(400,'No hay ponentes'));
+                }else{
+                    $response = json_encode($PonenteArr);
+                }
+                $this -> pages -> render('read',['response' => $response]);
             }else{
-                $PonenteArr["message"] = json_decode(ResponseHttp::statusMessage(400, 'No hay ponentes'));
-                $PonenteArr["Ponentes"] = [];
+                return "Error";
             }
-            if($PonenteArr==[]){
-                $response = json_encode(ResponseHttp::statusMessage(400,'No hay ponentes'));
-            }else{
-                $response = json_encode($PonenteArr);
-            }
-            $this -> pages -> render('read',['response' => $response]);
             
         }
 
