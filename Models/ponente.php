@@ -170,4 +170,56 @@
                     exit($e -> getMessage());
                 }
             }
+
+            public function delPonente($id): ?array{
+                try{
+                    $this-> conexion -> consulta("DELETE FROM ponentes WHERE id=$id");
+                    return $this-> conexion -> extraer_todos();
+                }catch(PDOException $e){
+                    exit($e->getMessage());
+                }
+            }
+
+            public function savePonente(): ?bool {
+                $ins = $this-> conexion -> prepara("INSERT INTO ponentes (nombre, apellidos) VALUES(:nombre, :apellidos)");
+    
+                $ins->bindParam(':nombre', $nombre, PDO::PARAM_STR);
+                $ins->bindParam(':apellidos', $apellidos, PDO::PARAM_STR);
+    
+                $nombre = $this->getNombre();
+                $apellidos = $this->getApellidos();
+    
+                try{
+                    $ins->execute();
+                    $result = true;
+                }catch(PDOException $err){
+                    $result = false;
+                }
+    
+                return $result;
+            }
+
+            public function updatePonente(): ?bool {
+                $ins = $this-> conexion ->prepara("UPDATE ponentes SET nombre = :nombre, apellidos = :apellidos WHERE id = :id");
+    
+    
+                $id = $this->id;
+                $nombre = $this->nombre;
+                $apellidos = $this->apellidos;
+    
+    
+                $ins->bindParam(':id', $id, PDO::PARAM_INT);
+                $ins->bindParam(':nombre', $nombre, PDO::PARAM_STR);
+                $ins->bindParam(':apellidos', $apellidos, PDO::PARAM_STR);
+    
+                
+                try{
+                    $ins->execute();
+                    $result = true;
+                }catch(PDOException $err){
+                    $result = false;
+                }
+    
+                return $result;
+            }
         }

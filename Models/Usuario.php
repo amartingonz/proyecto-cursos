@@ -264,6 +264,18 @@
             }
 
 
+        public function max_id($email){
+                //Funcion para sacar el ultimo pedido insertado
+                    $sql = $this -> prepara("SELECT id FROM usuarios WHERE email = :email");
+                    $sql->bindParam(':email',$email);
+                    try{
+                        $sql->execute() ;
+                        $datos = $sql -> fetchColumn();
+                        return $datos;
+                    }catch(PDOException $e){
+                        return false;
+                    }
+            }
 
         public function guardarToken($id,$token,$token_esp){
                 $sql = $this -> prepara("UPDATE usuarios SET token = :token, token_esp=:token_esp WHERE id = :id");
@@ -276,5 +288,58 @@
                 }catch(PDOException $e){
                     return false;
                 }
+        }
+
+        public function confirmarEmail($token){
+                $cons = $this->prepara("UPDATE usuarios SET confirmado = 1 WHERE id = (SELECT id FROM usuarios WHERE token = :token)");
+                $cons->bindParam(':token', $token);
+                try{
+                    $cons->execute();
+                    if($cons && $cons->rowCount() == 1){
+                        return true;
+                    }
+                }catch(PDOException $e){
+                    return False;
+                }
+            }
+
+
+        public function borrar_token($token){
+                $cons = $this->prepara("UPDATE usuarios SET token = '' WHERE id = (SELECT id FROM usuarios WHERE token = :token)");
+                $cons->bindParam(':token', $token);
+                try{
+                    $cons->execute();
+
+                    if($cons && $cons->rowCount() == 1){
+                        return true;
+                    }
+                }catch(PDOException $e){
+                    return False;
+                }
+            }
+
+
+        public function tokenExp($token){
+                    $sql = $this -> prepara("SELECT token_esp FROM usuarios WHERE token = :token");
+                    $sql->bindParam(':token',$token);
+                    try{
+                        $sql->execute() ;
+                        $datos = $sql -> fetchColumn();
+                        return $datos;
+                    }catch(PDOException $e){
+                        return false;
+                    }
+        }
+
+        public function comprobarConfirmado($id){
+            $sql = $this -> prepara("SELECT confirmado FROM usuarios WHERE id = :id");
+            $sql->bindParam(':id',$id);
+            try{
+                $sql->execute() ;
+                $datos = $sql -> fetchColumn();
+                return $datos;
+            }catch(PDOException $e){
+                return false;
+            }
         }
 }

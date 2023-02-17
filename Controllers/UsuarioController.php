@@ -2,10 +2,12 @@
     namespace Controllers;
 
     use Firebase\JWT\JWT;
+    use Lib\Email;
     use Models\Usuario;
     use Lib\ResponseHttp;
     use Lib\Pages;
     use Lib\Security;
+
 
 
     class UsuarioController{
@@ -18,6 +20,7 @@
             ResponseHttp::setHeaders();
             $this -> usuario = new Usuario();
             $this -> pages = new Pages();
+            
         }
 
 
@@ -25,11 +28,25 @@
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $data = json_decode(file_get_contents("php://input"));
                 $UsuarioArr = [];
+                
                 if(!$this -> usuario -> comprobar_email($data)){
+                   
                     $usuario = $this -> usuario -> register($data);
+                    $id = $this -> usuario -> max_id($data -> email);
+                    // crear la clave secreta
+                    $key = Security::clavesecreta();
+                    // crear el token a traves de la clave $key y el email
+                    $token = Security::crearToken($key, $data->email);
+                    // encode del token
+                    $encodedToken = JWT::encode($token, $key, 'HS256');
+                    //añadir el token al usuario
+                    $this->usuario->guardarToken($id,$encodedToken,$token['exp']);
+                    $email = new Email($data -> email,$encodedToken);
+                    $email -> enviarConfirmacion();
                 }else{
                     $response = "Email repetido";
                 }
+
                 if(!empty($usuario)){
                     $UsuarioArr["message"] = json_decode(ResponseHttp::statusMessage(202,'Usuario creado correctamente'));
                     $UsuarioArr["Usuario"] = [];
@@ -37,7 +54,9 @@
                     $UsuarioArr["message"] = json_decode(ResponseHttp::statusMessage(503, 'Error al crear el usuario'));
                     $UsuarioArr["Usuario"] = []; 
                     }
-                } if($UsuarioArr==[]){
+                }
+                
+                if($UsuarioArr==[]){
                     $response = json_encode($UsuarioArr["message"]);
                 }else{
                     $response = json_encode($UsuarioArr);
@@ -66,6 +85,7 @@
                         // encode del token
                         $encodedToken = JWT::encode($token, $key, 'HS256');
                         //añadir el token al usuario
+                        
                         $usuario -> guardarToken($datos[0],$encodedToken,$token['exp']);
                         $usuario -> setToken($encodedToken);
                         $usuario-> setToken_esp($token['exp']);
@@ -87,6 +107,27 @@
                     $this -> pages -> render('read',['response' => $response]); 
                 }
         }
+
+        public function confirmar_email($token){
+           $tokens =  $this -> usuario -> confirmarEmail($token);
+           $this -> usuario -> borrar_token($token);
+           $UsuarioArr = [];
+            if(!empty($tokens)){
+                $UsuarioArr["message"] = json_decode(ResponseHttp::statusMessage(202,'Confirmado con éxito'));
+                $UsuarioArr["Usuario"] = [];
+            }else{
+                $UsuarioArr["message"] = json_decode(ResponseHttp::statusMessage(400, 'Distintos tokens'));
+                $UsuarioArr["Usuario"] = [];
+            }
+            if($UsuarioArr==[]){
+                $response = json_encode(ResponseHttp::statusMessage(400,'No hay ponentes'));
+            }else{
+                $response = json_encode($UsuarioArr);
+            }
+          
+           $this -> pages -> render('read',['response' => $response]);
+       }
+
     }
 
 
