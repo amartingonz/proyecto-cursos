@@ -23,6 +23,9 @@
 
 
         public function getAll(){
+            // Funcion para obtener todos los ponentes, he añadido el validar confirmado porque si el usuario ha confirmado su email no hace falta que  introduzca el token,
+            // ya que el usuario ha sido confirmado. Es decir si no ha confirmado el email puede entrar pero deberá introducir su token, aunque es recomendable que primero
+            // confirme su email para poder continuar.
             if(Security::validateToken() || Security::validateConfirmado()){
                 $ponentes = $this -> ponente->findAll();
                 $PonenteArr = [];
@@ -49,6 +52,7 @@
         }
         
         public function delPonente($id){
+            // Funcion para eliminar un ponente
             $ponentes = $this->ponente->delPonente($id);
             $PonenteArr = [];
 
@@ -67,6 +71,7 @@
         }
 
         public function getPonente($id){
+            // Funcion para obtener ponentes por su id.
             $ponentes = $this -> ponente -> findOne($id);
             $PonenteArr = [];
             if(!empty($ponentes)){
@@ -88,7 +93,7 @@
         }
 
         public function savePonente(){
-
+            // Funcion para guardar ponente.
             if(Security::validateToken()){
                 $ponente = new Ponente("","","","","","");
 
@@ -125,6 +130,7 @@
 
 
         public function updatePonente(){
+            // Funcion para actualizar ponentes.
             $ponente = new Ponente("","","","","","");
 
             $data = json_decode(file_get_contents("php://input"));

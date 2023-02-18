@@ -25,6 +25,7 @@
 
 
         public function register(){
+            // Funcion para registrarse en la base de datos.
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $data = json_decode(file_get_contents("php://input"));
                 $UsuarioArr = [];
@@ -65,7 +66,7 @@
         }
 
         public function login(){
-            
+            // Funcion para loguear el usuario con email y password, comprobando que el usuario existe en nuestra base de datos.
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $data = json_decode(file_get_contents("php://input"));
 
@@ -109,6 +110,7 @@
         }
 
         public function confirmar_email($token){
+            // Funcion parar confirmar el email, una vez que se confirma se pone en la base de datos que esta confirmado y luego se borra el token.
            $tokens =  $this -> usuario -> confirmarEmail($token);
            $this -> usuario -> borrar_token($token);
            $UsuarioArr = [];

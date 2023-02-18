@@ -150,6 +150,7 @@
             }
 
             public function findAll(){
+                // Funcion para sacar todos los ponentes
                 $statement = "SELECT * FROM ponentes;";
 
                 try{
@@ -161,6 +162,8 @@
             }
 
             public function findOne($id){
+                //Funcion para guardar el ponente por id
+
                 $statement = "SELECT * FROM ponentes WHERE id=$id;";
 
                 try{
@@ -172,6 +175,8 @@
             }
 
             public function delPonente($id): ?array{
+            //Funcion para borrar el ponente
+
                 try{
                     $this-> conexion -> consulta("DELETE FROM ponentes WHERE id=$id");
                     return $this-> conexion -> extraer_todos();
@@ -181,6 +186,8 @@
             }
 
             public function savePonente(): ?bool {
+                //Funcion para guardar el ponente
+
                 $ins = $this-> conexion -> prepara("INSERT INTO ponentes (nombre, apellidos) VALUES(:nombre, :apellidos)");
     
                 $ins->bindParam(':nombre', $nombre, PDO::PARAM_STR);
@@ -200,6 +207,7 @@
             }
 
             public function updatePonente(): ?bool {
+                //Funcion para actualizar el ponente
                 $ins = $this-> conexion ->prepara("UPDATE ponentes SET nombre = :nombre, apellidos = :apellidos WHERE id = :id");
     
     

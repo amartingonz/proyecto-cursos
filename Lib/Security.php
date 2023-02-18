@@ -92,6 +92,7 @@
            }
 
            final public static function validateConfirmado():bool{
+            //  Funcion que he creado para poder validar si esta confirmado el usuario
             $info = self::getId();
             if (gettype($info) == "boolean"){
                 if($info == 1){

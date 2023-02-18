@@ -18,34 +18,36 @@
 
     Router::add('GET','auth',function(){require '../views/auth.php';});
 
+    // Obtener todos los ponentes mediante el metodo get
     Router::add('GET','ponente',function(){
         (new ApiponenteController()) -> getAll();
     });
 
+    // Confirmar mediante el metodo get el correo
     Router::add('GET', 'confirmar-cuenta/:id', function(string $token){
         (new UsuarioController())->confirmar_email($token);
     });
-
+    // Obtener mediante metodo get el ponente por su id
     Router::add('GET','/ponente/:id',function(int $ponenteid){
          (new ApiponenteController()) -> getPonente($ponenteid);
     });
-    
+    // Registrar un usuario mediante el metodo post
     Router::add('POST','/usuario/register',function(){
          (new UsuarioController()) -> register();
    });
-   
+   // Loguearse con email y password mediante el metodo post
     Router::add('POST','/usuario/login',function(){
         (new UsuarioController()) -> login();
     });
-
+    // Borrar un ponente mediante su id por el metodo delete
     Router::add('DELETE', 'ponente/:id', function(int $ponenteid){
         (new ApiponenteController())->delPonente($ponenteid);
     });
-
+    // Guardar ponentes mediante el metodo post
     Router::add('POST', 'ponente', function(){
         (new ApiponenteController())->savePonente();
     });
-
+    // Actualizar ponentes mediante el metodo PUT
     Router::add('PUT', 'ponente', function(){
         (new ApiponenteController())->updatePonente();
     });

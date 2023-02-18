@@ -320,6 +320,7 @@
 
 
         public function tokenExp($token){
+            // Función para obtener la expiracion del token
                     $sql = $this -> prepara("SELECT token_esp FROM usuarios WHERE token = :token");
                     $sql->bindParam(':token',$token);
                     try{
@@ -332,6 +333,7 @@
         }
 
         public function comprobarConfirmado($id){
+            // Funcion para comprobar si el usuario ha confirmado su email.
             $sql = $this -> prepara("SELECT confirmado FROM usuarios WHERE id = :id");
             $sql->bindParam(':id',$id);
             try{
