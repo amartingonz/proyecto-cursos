@@ -266,7 +266,7 @@
 
         public function max_id($email){
                 //Funcion para sacar el ultimo pedido insertado
-                    $sql = $this -> prepara("SELECT id FROM usuarios WHERE email = :email");
+                    $sql = $this -> prepara("SELECT id_usuario FROM usuarios WHERE email = :email");
                     $sql->bindParam(':email',$email);
                     try{
                         $sql->execute() ;
@@ -278,7 +278,7 @@
             }
 
         public function guardarToken($id,$token,$token_esp){
-                $sql = $this -> prepara("UPDATE usuarios SET token = :token, token_esp=:token_esp WHERE id = :id");
+                $sql = $this -> prepara("UPDATE usuarios SET token = :token, token_esp=:token_esp WHERE id_usuario = :id");
                 $sql->bindParam(':id',$id);
                 $sql->bindParam(':token',$token);
                 $sql->bindParam(':token_esp',$token_esp);
