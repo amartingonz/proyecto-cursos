@@ -86,12 +86,13 @@
         }
 
 
-        public function listarXcategorias(){
+        public function listarXcategorias($id){
             // Esta funcion sirve para listar los productos por categorias es decir una vez iniciada la sesion, si pinchas en una
             // categoria te muestra los productos de dicha categoria.
-                $id = $_GET['categoria'];
+                // $id = $_GET['categoria'];
                 $productos = $this -> service -> listarXcategorias($id);
                 $this -> pages -> render('productos/listarXcategorias', ["productos" => $productos]); 
+                
         }
 
 

@@ -1,3 +1,7 @@
+    <?php
+            use Repositories\CategoriaRepository;
+            use Models\Categoria;
+    ?>
     <!DOCTYPE html>
     <html lang="es">
     <head>
@@ -10,10 +14,7 @@
     <body>
         
     
-        <?php
-            use Repositories\CategoriaRepository;
-            use Models\Categoria;
-        ?>
+
            <h1>Tienda</h1>
            <?php
                 if(!isset($_SESSION['carrito'])){
@@ -66,5 +67,14 @@
         <?php endif;?>
         <br>
       
+        <?php $categorias=CategoriaRepository::obtenerCategorias(); ?>
 
-    
+    <nav class="categorias">
+        <ul>
+        <?php foreach($categorias as $cat){
+                    echo "<a href=".$_ENV['BASE_URL']."listarXcategorias/".$cat->getId().">".$cat->getNombre()."</a>";
+                }
+
+        ?>
+        </form>
+        </ul>
