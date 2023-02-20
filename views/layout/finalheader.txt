@@ -1,0 +1,11 @@
+     <?php $categorias=CategoriaRepository::obtenerCategorias(); ?>
+
+        <nav class="categorias">
+            <ul>
+            <?php foreach($categorias as $cat){
+                        echo "<a href=Producto/listarXcategorias&categoria=".$cat->getId().">".$cat->getNombre()."</a>";
+                    }
+
+            ?>
+            </form>
+            </ul>

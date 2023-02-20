@@ -1,11 +1,12 @@
 <?php
+    session_start();
     require_once '../views/layout/header.php';
-
     require_once __DIR__.'../../vendor/autoload.php';
     use Dotenv\Dotenv;
-    use Models\Ponente;
-    use Lib\ResponseHttp;
-    use Controllers\ApiponenteController;
+    use Controllers\CategoriaController;
+    use Controllers\CarritoController;
+    use Controllers\PedidoController;
+    use Controllers\ProductoController;
     use Controllers\UsuarioController;
     use Lib\Router;
     USE Models\Usuario;
@@ -14,15 +15,33 @@
     $dotenv = Dotenv::createImmutable(__DIR__);
     $dotenv->safeLoad();
 
-
-    // Router::add('GET','proyecto-cursos',function(){echo 'saludo';});
+    // INDEX
     Router::add('GET','/',function(){require '../index.php';});
-    Router::add('GET','/registro',function(){require '../views/Usuario/registro.php';});
-    Router::add('POST','/registro',function(){
-        (new UsuarioController()) -> register();
-    });
 
-        // 
+    // REGISTRO
+    Router::add('GET','usuarios_registrar',function(){require '../views/usuarios/registro.php';});
+    Router::add('POST','usuarios_registrar',function(){
+        (new UsuarioController()) -> registrar();});
+
+    // LOGIN
+    Router::add('GET','usuarios_loguear',function(){require '../views/usuarios/login.php';});
+    Router::add('POST','usuarios_loguear',function(){
+        (new UsuarioController()) -> login();});
+
+    // CERRAR SESION
+    Router::add('GET','cerrar_sesion',function(){
+        require '../views/usuarios/cerrar_sesion.php';}
+    );
+    Router::add('POST','cerrar_sesion',function(){
+        (new UsuarioController()) -> cerrar_sesion();});
+
+
+
+
+
+
+
+
 //     Router::add('GET','auth',function(){require '../views/auth.php';});
 
 //     // Obtener todos los ponentes mediante el metodo get
@@ -62,4 +81,3 @@
     Router::dispatch();
     require_once '../views/layout/footer.php';
 ?>
-

@@ -1,3 +1,4 @@
+<!--
 <footer>
         <nav class="footer--menu">
             <ul>
@@ -7,5 +8,6 @@
             </ul>
         </nav>
     </footer>
+-->
 </body>
 </html>

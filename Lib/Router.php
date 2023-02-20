@@ -30,7 +30,7 @@ class Router {
 
 
         $param = null;
-        $p= preg_match('/\/[a-z0-9A-Z]+$/', $action, $match);
+        $p= preg_match('/\/[a-z0-9A-Z.-_]+$/', $action, $match);
        if(!empty($match)){
 
             $param = $match[0];

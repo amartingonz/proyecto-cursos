@@ -5,7 +5,11 @@
             "Usuario\\ProyectoCursos\\": "./",
             "Controllers\\" :  "./Controllers",
             "Models\\" : "./Models",
-            "Lib\\" :  "./Lib"
+            "Lib\\" :  "./Lib",
+            "Services\\": "./services",
+            "Repositories\\": "./repositories",
+            "Utils\\": "./utils"
+
         }
     },
     "authors": [
