@@ -30,19 +30,7 @@ class Router {
 
 
         $param = null;
-        if($action == "ponente" ){
-            $p= preg_match('/[0-9]+$/', $action, $match);
-        }
-        else if ($method == 'POST'){
-            $p = preg_match('/^[A-Za-z0-9._-]+$/', $action, $match);
-        }
-        else if(preg_match('/\/\d+$/', $action)){
-            $p = preg_match('/[0-9]+$/', $action, $match);
-        }
-        else{
-            $p = preg_match('/[A-Za-z0-9._-]+$/', $action, $match);
-        }
-        
+        $p= preg_match('/\/[a-z0-9A-Z]+$/', $action, $match);
        if(!empty($match)){
 
             $param = $match[0];

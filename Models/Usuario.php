@@ -215,11 +215,11 @@
 
        
         public function register($data){
-                $sql = $this->prepara("INSERT INTO usuarios (id,nombre,apellidos,email,password,rol,confirmado,token,token_esp) VALUES (id,:nombre,:apellidos,:email,:password,'user',0,NULL,NULL)");
-                $password = password_hash($data -> password,PASSWORD_BCRYPT,['cost' => 4]);
-                $sql->bindParam(':nombre',$data->nombre);
-                $sql->bindParam(':apellidos',$data->apellidos);
-                $sql->bindParam(':email',$data->email);
+                $sql = $this->prepara("INSERT INTO usuarios (id_usuario,nombre,apellidos,email,password,rol,confirmado,token,token_esp) VALUES (id_usuario,:nombre,:apellidos,:email,:password,'admin',0,NULL,NULL)");
+                $password = password_hash($data['password'],PASSWORD_BCRYPT,['cost' => 4]);
+                $sql->bindParam(':nombre',$data['nombre']);
+                $sql->bindParam(':apellidos',$data['apellidos']);
+                $sql->bindParam(':email',$data['email']);
                 $sql->bindParam(':password',$password);
                 try{
                     $sql->execute();
@@ -232,7 +232,7 @@
         public function comprobar_email($data){
                 $result = false;
                 $sql = $this->prepara("SELECT * FROM usuarios WHERE email = :email");
-                $sql->bindParam(':email',$data->email);
+                $sql->bindParam(':email',$data['email']);
                 try{
                     $sql->execute();
                     if($sql && $sql->rowCount() == 1){

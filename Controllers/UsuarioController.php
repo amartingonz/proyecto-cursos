@@ -7,6 +7,7 @@
     use Lib\ResponseHttp;
     use Lib\Pages;
     use Lib\Security;
+    use Utils\Utils;
 
 
 
@@ -14,56 +15,45 @@
 
         private Pages $pages;
         private Usuario $usuario;
-        
+        private Utils $utils;
+
         public function __construct()
         {
             ResponseHttp::setHeaders();
             $this -> usuario = new Usuario();
             $this -> pages = new Pages();
-            
+            // $this -> utils = new Utils();
+
         }
 
 
         public function register(){
             // Funcion para registrarse en la base de datos.
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
-                $data = json_decode(file_get_contents("php://input"));
-                $UsuarioArr = [];
-                
-                if(!$this -> usuario -> comprobar_email($data)){
-                   
-                    $usuario = $this -> usuario -> register($data);
-                    $id = $this -> usuario -> max_id($data -> email);
-                    // crear la clave secreta
-                    $key = Security::clavesecreta();
-                    // crear el token a traves de la clave $key y el email
-                    $token = Security::crearToken($key, $data->email);
-                    // encode del token
-                    $encodedToken = JWT::encode($token, $key, 'HS256');
-                    //añadir el token al usuario
-                    $this->usuario->guardarToken($id,$encodedToken,$token['exp']);
-                    $email = new Email($data -> email,$encodedToken);
-                    $email -> enviarConfirmacion();
-                }else{
-                    $response = "Email repetido";
-                }
-
-                if(!empty($usuario)){
-                    $UsuarioArr["message"] = json_decode(ResponseHttp::statusMessage(202,'Usuario creado correctamente'));
-                    $UsuarioArr["Usuario"] = [];
-                }else{
-                    $UsuarioArr["message"] = json_decode(ResponseHttp::statusMessage(503, 'Error al crear el usuario'));
-                    $UsuarioArr["Usuario"] = []; 
+                $data = $_POST['data'];
+                // $errores = $this -> utils -> validar_registro($data);
+                // if($this -> utils -> sinErroresRegistro($errores)){
+                    if(!$this -> usuario -> comprobar_email($data)){
+                        $usuario = $this -> usuario -> register($data);
+                        $id = $this -> usuario -> max_id($data['email']);
+                        // crear la clave secreta
+                        $key = Security::clavesecreta();
+                        // crear el token a traves de la clave $key y el email
+                        $token = Security::crearToken($key, $data['email']);
+                        // encode del token
+                        $encodedToken = JWT::encode($token, $key, 'HS256');
+                        //añadir el token al usuario
+                        $this->usuario->guardarToken($id,$encodedToken,$token['exp']);
+                        $email = new Email($data['email'],$encodedToken);
+                        $email -> enviarConfirmacion();
+                    }else{
+                        $this-> pages-> render("layout/mensaje", ["mensaje" => "El email ya existe"]);
                     }
-                }
-                
-                if($UsuarioArr==[]){
-                    $response = json_encode($UsuarioArr["message"]);
-                }else{
-                    $response = json_encode($UsuarioArr);
-                }
-                $this -> pages -> render('read',['response' => $response]); 
-        }
+                // }else{
+                //         $_SESSION['errores'] = $errores;
+                //         $this -> pages -> render('/registro');
+                //     }        
+    }}
 
         public function login(){
             // Funcion para loguear el usuario con email y password, comprobando que el usuario existe en nuestra base de datos.
@@ -131,10 +121,6 @@
        }
 
     }
-
-
-
-
 
 
 
