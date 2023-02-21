@@ -66,7 +66,7 @@
     // PEDIDOS
     
     Router::add('GET','consultar_pedidos',function(){
-        require '../views/pedidos/mis_pedidos.php';
+        (new PedidoController()) -> consultar_pedidos();
     });
 
     

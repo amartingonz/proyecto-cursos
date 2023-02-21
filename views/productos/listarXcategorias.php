@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="./css/style.css">
 
 <h2>Productos</h2>
 <table>
