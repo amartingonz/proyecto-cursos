@@ -7,7 +7,7 @@
         $datos = $_SESSION['id_usuario'];
     }
 ?>
-<form action="Producto/crear_producto" method="post" enctype="multipart/form-data">
+<form action="<?= $_ENV['BASE_URL']?>crear_producto" method="post" enctype="multipart/form-data">
 
     <label for="categoria">Categoria</label>
     <br>

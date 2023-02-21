@@ -9,13 +9,14 @@
     use Controllers\ProductoController;
     use Controllers\UsuarioController;
     use Lib\Router;
-    USE Models\Usuario;
     $dotenv = Dotenv::createImmutable(__DIR__);
     $dotenv->safeLoad();
     require_once '../views/layout/header.php';
 
     // // INDEX
-    Router::add('GET','/',function(){require '../index.php';});
+    Router::add('GET','/',function(){
+        (new ProductoController()) -> listar_productos();
+    });
 
     // REGISTRO
     Router::add('GET','usuarios_registrar',function(){require '../views/usuarios/registro.php';});
@@ -34,53 +35,85 @@
     Router::add('POST','cerrar_sesion',function(){
         (new UsuarioController()) -> cerrar_sesion();});
 
+    // LISTAR X CATEGORIAS/ID
     Router::add('GET','listarXcategorias/:id',function(int $id){
          (new ProductoController()) -> listarXcategorias($id);
     });
 
+    // AÑADIR AL CARRITO
+    
+    Router::add('POST','comprobarPedido',function(){
+        (new PedidoController()) -> comprobarPedido();
+        });
 
 
-        
+    Router::add('GET','anadir_carrito',function(){
+        require '../views/productos/carrito.php';
+    });
+    
+   Router::add('POST','anadir_carrito',function(){
+    (new CarritoController()) -> anadir_carrito();
+    });
+
+    Router::add('GET','borrar_elementos',function(){
+        require '../views/productos/carrito.php';
+    });
+
+    Router::add('POST','borrar_elementos',function(){
+        (new CarritoController()) -> borrar_elementos();
+    });
+
+    // PEDIDOS
+    
+    Router::add('GET','consultar_pedidos',function(){
+        require '../views/pedidos/mis_pedidos.php';
+    });
+
+    
+    Router::add('GET','comprobarPedido',function(){
+        (new PedidoController()) -> comprobarPedido();
+    });
+
+    Router::add('POST','crear_pedido',function(){
+        (new PedidoController()) -> crear_pedido();
+    });
+
+    // CATEGORIAS
+
+    Router::add('GET','crear_categoria',function(){
+        require '../views/categorias/crear_categoria.php';
+    });
+
+   Router::add('POST','crear_categoria',function(){
+    (new CategoriaController()) -> crear_categoria();
+    });
+
+    // PRODUCTOS
+    
+
+    Router::add('GET','crear_producto',function(){
+        (new ProductoController()) -> crear_producto();
+    });
+    Router::add('POST','crear_producto',function(){
+        (new ProductoController()) -> crear_producto();
+    });
+
+    // EDITAR DATOS
+
+    
+    Router::add('GET','editar_datos',function(){
+        require '../views/usuarios/editar_datos.php';
+    });
+    
+    Router::add('POST','editar_datos',function(){
+        (new UsuarioController()) -> editar_datos();
+    });
 
 
-//     Router::add('GET','auth',function(){require '../views/auth.php';});
 
-//     // Obtener todos los ponentes mediante el metodo get
-//     Router::add('GET','ponente',function(){
-//         (new ApiponenteController()) -> getAll();
-//     });
 
-//     // Confirmar mediante el metodo get el correo
-//     Router::add('GET', 'confirmar-cuenta/:id', function(string $token){
-//         (new UsuarioController())->confirmar_email($token);
-//     });
-//     // Obtener mediante metodo get el ponente por su id
-//     Router::add('GET','/ponente/:id',function(int $ponenteid){
-//          (new ApiponenteController()) -> getPonente($ponenteid);
-//     });
-//     // Registrar un usuario mediante el metodo post
-//     Router::add('GET','/Usuario/register',function(){
-//          (new UsuarioController()) -> register();
-//    });
-//    // Loguearse con email y password mediante el metodo post
-//     Router::add('POST','/usuario/login',function(){
-//         (new UsuarioController()) -> login();
-//     });
-//     // Borrar un ponente mediante su id por el metodo delete
-//     Router::add('DELETE', 'ponente/:id', function(int $ponenteid){
-//         (new ApiponenteController())->delPonente($ponenteid);
-//     });
-//     // Guardar ponentes mediante el metodo post
-//     Router::add('POST', 'ponente', function(){
-//         (new ApiponenteController())->savePonente();
-//     });
-//     // Actualizar ponentes mediante el metodo PUT
-//     Router::add('PUT', 'ponente', function(){
-//         (new ApiponenteController())->updatePonente();
-//     });
     
     Router::dispatch();
     require_once '../views/layout/footer.php';
 ?>
 
-<h1>hola</h1>

@@ -58,7 +58,7 @@ class PedidoController{
                     $ultima_id = $id['MAX(id)'];
                     $email = $_SESSION['email'];
                     $precio_total = $_SESSION['total'];
-                    header("Location:".base_url);
+                    header("Location:".$_ENV['BASE_URL']);
                     $this -> enviar_email($email,$precio_total,$ultima_id);
                     $this -> pages -> render('layout/mensaje',["mensaje" => "Pedido realizado con éxito"]);
                     $_SESSION['carrito'] = [];

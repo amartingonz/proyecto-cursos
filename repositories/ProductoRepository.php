@@ -30,10 +30,9 @@
             //Funcion para crear productos pasandole el array recogido del formulario
             $sql = ("INSERT INTO productos (categoria_id,nombre,descripcion,precio,stock,oferta,fecha,imagen) VALUES((SELECT id FROM categorias WHERE nombre = :categoria_id),:nombre,:descripcion,:precio,:stock,:oferta,:fecha,:imagen)");
             $fecha = date("Y-m-d");
-            //$archivo = $_FILES['data']['name'];
+            $archivo = $_FILES['data']['name'];
             $precio = ($data['precio']) - ($data['precio'] * $data['oferta'] / 100);
             $consult = $this -> conexion -> prepara($sql);
-                // var_dump($data);die();
 
             $consult -> bindParam(':categoria_id',$data['categoria'],PDO::PARAM_STR);
             $consult -> bindParam(':nombre',$data['nombre'],PDO::PARAM_STR);
@@ -42,7 +41,7 @@
             $consult -> bindParam(':stock',$data['stock'],PDO::PARAM_STR);
             $consult -> bindParam(':oferta',$data['oferta'],PDO::PARAM_STR);
             $consult -> bindParam(':fecha',$fecha,PDO::PARAM_STR);
-            $consult -> bindParam(':imagen',$data['imagen'],PDO::PARAM_STR);
+            $consult -> bindParam(':imagen',$archivo['imagen'],PDO::PARAM_STR);
 
             try{
                 // var_dump($data);die();

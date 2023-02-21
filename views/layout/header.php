@@ -25,17 +25,17 @@
         <nav class="menu">
             <ul>
             <li>
-                    <a href="./">Inicio</a> 
+                    <a href="<?= $_ENV['BASE_URL']?>">Inicio</a> 
             </li>
             <?php if(!isset($_SESSION['usuario']) && !isset($_SESSION['admin'])){?>
                 <li>
-                    <a href="usuarios_registrar">Registrar</a>
+                    <a href="<?= $_ENV['BASE_URL']?>usuarios_registrar">Registrar</a>
                 </li>
                 <li>
-                    <a href="usuarios_loguear">Login</a>
+                    <a href="<?= $_ENV['BASE_URL']?>usuarios_loguear">Login</a>
                 </li>
                 <li>
-                    <a href="anadir_carrito">Ver carrito</a>
+                    <a href="<?= $_ENV['BASE_URL']?>anadir_carrito">Ver carrito</a>
                 </li>
             <?php }?>
             </ul>
@@ -44,12 +44,12 @@
         <?php if(isset($_SESSION['admin'])):?>
         <nav class="menu"> 
             <ul>
-                <li><a href="anadir_carrito">Ver carrito</a></li>
-                <li><a href="consultar_pedidos">Ver pedidos</a></li>
-                <li><a href="crear_categoria">Crear Categorias</a></li>
-                <li><a href="crear_producto">Crear Productos</a></li>
-                <li><a href="editar_datos">Editar Datos</a></li>
-                <li><a href="cerrar_sesion">cerrar sesion</a></li>
+                <li><a href="<?= $_ENV['BASE_URL']?>anadir_carrito">Ver carrito</a></li>
+                <li><a href="<?= $_ENV['BASE_URL']?>consultar_pedidos">Ver pedidos</a></li>
+                <li><a href="<?= $_ENV['BASE_URL']?>crear_categoria">Crear Categorias</a></li>
+                <li><a href="<?= $_ENV['BASE_URL']?>crear_producto">Crear Productos</a></li>
+                <li><a href="<?= $_ENV['BASE_URL']?>editar_datos">Editar Datos</a></li>
+                <li><a href="<?= $_ENV['BASE_URL']?>cerrar_sesion">cerrar sesion</a></li>
             </ul>
         </nav>
         <?php endif;?>
@@ -58,10 +58,10 @@
         <?php if(isset($_SESSION['usuario'])):?>
             <nav class="menu">
                 <ul>
-                    <li><a href="anadir_carrito">Ver carrito</a></li>
-                    <li><a href="consultar_pedidos">Ver pedidos</a></li>
-                    <li><a href="editar_datos">Editar Datos</a></li>
-                    <li><a href="cerrar_sesion">cerrar sesion</a></li>
+                    <li><a href="<?= $_ENV['BASE_URL']?>anadir_carrito">Ver carrito</a></li>
+                    <li><a href="<?= $_ENV['BASE_URL']?>consultar_pedidos">Ver pedidos</a></li>
+                    <li><a href="<?= $_ENV['BASE_URL']?>editar_datos">Editar Datos</a></li>
+                    <li><a href="<?= $_ENV['BASE_URL']?>cerrar_sesion">cerrar sesion</a></li>
                 </ul>
             </nav>
         <?php endif;?>

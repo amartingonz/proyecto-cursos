@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="./css/style.css">
 <!-- FORMULARIO DE LOGIN -->
 <h2>Identificate</h2>
-<form action="usuarios_loguear" method="post">
+<form action="<?= $_ENV['BASE_URL']?>usuarios_loguear" method="post">
 
     <label for="email">Email</label>
     <input type="email" name="data[email]" required>

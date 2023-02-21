@@ -15,7 +15,7 @@
 ?>
 
 
-<form action="Pedido/crear_pedido" method="post">
+<form action="<?= $_ENV['BASE_URL']?>crear_pedido" method="post">
 
     <input type="hidden" name="data[usuario_id]" value="<?= $id ?>">
     <label for="provincia">Provincia</label>

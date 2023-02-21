@@ -20,9 +20,9 @@
                 <td><?= $_SESSION['carrito'][$producto['id']] ?></td>
                 <?php $total += $producto['precio']*$_SESSION['carrito'][$producto['id']]; ?>
                 <?php $total_unidades += $_SESSION['carrito'][$producto['id']];?>
-                <td><img src="<?= "../images/".$producto['imagen']?>" width="100px"></td>
+                <td><img src="<?= "./images/".$producto['imagen']?>" width="100px"></td>
                 <td>
-                        <form action="Carrito/anadir_carrito" method="post">
+                        <form action="anadir_carrito" method="post">
                             <input type="hidden" name="stock" value="<?= $producto['stock']?>">
                             <input type="number" name="unidades" min="1" value="1">
                             <input type="hidden" name="cod" value="<?= $producto['id'] ?>">
@@ -30,7 +30,7 @@
                         </form>
                 </td>
                 <td>
-                    <form action="Carrito/borrar_elementos" method="post">
+                    <form action="borrar_elementos" method="post">
                         <input type="number" name="unidades" min="1" value="1">
                         <input type="hidden" name="cod" value="<?= $producto['id'] ?>">
                         <input type="submit" value="Eliminar">
@@ -53,7 +53,7 @@
     }
 ?>
 <br>
-<a href="Pedido/comprobarPedido">Realizar pedido</a>
+<a href="comprobarPedido">Realizar pedido</a>
 
 
 <br>

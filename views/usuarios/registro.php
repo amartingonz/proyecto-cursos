@@ -3,7 +3,7 @@
 
 <h2>Registrate</h2>
 
-<form action="usuarios_registrar" method="post">
+<form action="<?= $_ENV['BASE_URL']?>usuarios_registrar" method="post">
 
     <label for="nombre">Nombre</label>
     <input type="text" name="data[nombre]">

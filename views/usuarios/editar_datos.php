@@ -8,7 +8,7 @@
 ?>
 <br>
 <h2>Editar Datos de Usuario</h2>
-<form action="<?= base_url ?>Usuario/editar_datos" method="post">
+<form action="<?= $_ENV['BASE_URL']?>editar_datos" method="post">
 
     <input type="hidden" name="data[id_usuario]" value="<?= $datos ?>">
     <label for="nombre">Nombre</label>

@@ -21,6 +21,10 @@
             $this -> utils = new Utils();
         }
 
+        public function index(){
+            header('Location:'.$_ENV['BASE_URL']);
+        }
+
         public function crear_producto(){
             if(!file_exists('images')){
                 mkdir('images');
@@ -28,9 +32,10 @@
             // Funcion encargada de crear los productos, he usado metodos de la clase utils para validar los datos.
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $datos = $_POST['data'];
-                
+               
                 $nombre = $_POST['data']['nombre'];
                 $archivo = $_FILES['data']['name'];
+                
                 $errores = $this -> utils -> validar_crearProductos($datos);
                 $existe = $this -> service -> comprobarProducto($nombre);
 
