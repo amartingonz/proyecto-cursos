@@ -46,7 +46,7 @@
         <?php if(isset($_SESSION['admin'])):?>
         <nav class="menu"> 
             <ul>
-                <li><a href="<?= $_ENV['BASE_URL']?>anadir_carrito">Ver carrito</a></li>
+                <li><a href="anadir_carrito">Ver carrito</a></li>
                 <li><a href="<?= $_ENV['BASE_URL']?>consultar_pedidos">Ver pedidos</a></li>
                 <li><a href="<?= $_ENV['BASE_URL']?>crear_categoria">Crear Categorias</a></li>
                 <li><a href="<?= $_ENV['BASE_URL']?>crear_producto">Crear Productos</a></li>

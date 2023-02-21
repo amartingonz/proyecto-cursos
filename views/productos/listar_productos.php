@@ -19,7 +19,7 @@
                     <td><?= $producto['stock']?></td>
                     <td><img src="<?="./images/".$producto['imagen']?>" width="100px"></td>
                     <td>
-                        <form action="<?= $_ENV['BASE_URL']?>anadir_carrito" method="post">
+                        <form action="anadir_carrito" method="post">
                             <input type="hidden" name="stock" value="<?= $producto['stock']?>">
                             <input type="number" name="unidades" min="1" value="1" max="<?= $producto['stock']?>">
                             <input type="hidden" name="cod" value="<?= $producto['id'] ?>">

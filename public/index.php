@@ -44,11 +44,11 @@
     
     Router::add('POST','comprobarPedido',function(){
         (new PedidoController()) -> comprobarPedido();
-        });
+    });
 
 
     Router::add('GET','anadir_carrito',function(){
-        require '../views/productos/carrito.php';
+        (new CarritoController()) -> anadir_carrito();
     });
     
    Router::add('POST','anadir_carrito',function(){
