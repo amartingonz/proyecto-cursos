@@ -96,13 +96,13 @@ class Utils{
     public function validar_crearProductos($array):?array{
             
         $errores = array();
-            if(!validarRequerido($array['nombre'])){
+            if(!validarRequerido($array['nombre']) && !validar_texto($array['nombre'])){
                 $errores['nombre'] = "No puede estar vacio";
             }else{
                 $errores['nombre'] = "";
             }
 
-            if(!validarRequerido($array['descripcion'])){
+            if(!validarRequerido($array['descripcion'])  && !validar_texto($array['nombre'])){
                 $errores['descripcion'] = "No puede estar vacio";
             }else{
                 $errores['descripcion'] = "";
@@ -111,10 +111,30 @@ class Utils{
             return $errores;
     }
    
+    public function sinErroreseditarProductos($errores){
+        return(($errores['nombre'] == ""));
+
+    }
+
+    public function validar_editarProductos($nombre):?array{
+            
+        $errores = array();
+            if(!validarRequerido($nombre)){
+                $errores['nombre'] = "No puede estar vacio";
+            }else{
+                $errores['nombre'] = "";
+            }
+            return $errores;
+    }
+   
     public function sinErrorescrearProductos($errores){
         return(($errores['nombre'] == "")&&($errores['descripcion'] == ""));
 
     }
+
+
+
+
 
     public function validar_borrarProducto($data):?array{
             
@@ -134,8 +154,8 @@ class Utils{
     public function validar_crearCategoria($data):?array{
             
         $errores = array();
-            if(!validarRequerido($data)){
-                $errores['nombre'] = "No puede estar vacio";
+            if(!validarRequerido($data)  && !validar_texto($data)){
+                $errores['nombre'] = "Campo incorrecto";
             }else{
                 $errores['nombre'] = "";
             }
@@ -149,29 +169,29 @@ class Utils{
     public function validar_crearPedido($array):?array{
             
         $errores = array();
-            if(!validarRequerido($array['provincia'])){
+            if(!validarRequerido($array['provincia'])  && !validar_texto($array['provincia'])){
                 $errores['provincia'] = "No puede estar vacio";
             }else{
                 $errores['provincia'] = "";
             }
-            if(!validar_texto($array['provincia'])){
+            if(!validar_texto($array['provincia'])  && !validar_texto($array['provincia'])){
                 $errores['provincia'] = "No puedes meter numeros";
             }else{
                 $errores['provincia'] = "";
             }
 
-            if(!validarRequerido($array['localidad'])){
+            if(!validarRequerido($array['localidad'])  && !validar_texto($array['localidad'])){
                 $errores['localidad'] = "No puede estar vacio";
             }else{
                 $errores['localidad'] = "";
             }
-            if(!validar_texto($array['localidad'])){
+            if(!validar_texto($array['localidad'])  && !validar_texto($array['localidad'])){
                 $errores['localidad'] = "No puedes meter numeros";
             }else{
                 $errores['localidad'] = "";
             }
 
-            if(!validarRequerido($array['direccion'])){
+            if(!validarRequerido($array['direccion'])  && !validar_texto($array['direccion'])){
                 $errores['direccion'] = "No puede estar vacio";
             }else{
                 $errores['direccion'] = "";

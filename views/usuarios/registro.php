@@ -6,30 +6,31 @@
 <form action="<?= $_ENV['BASE_URL']?>usuarios_registrar" method="post">
 
     <label for="nombre">Nombre</label>
-    <input type="text" name="data[nombre]">
+    <input type="text" name="data[nombre]"  pattern="[a-zA-Z]+" title="No se permiten caracteres raros ni etiquetas">
     <span><?php if(isset($_SESSION['errores'])){
         if(isset($_SESSION['errores']['nombre'])){
             echo $_SESSION['errores']['nombre'];
         }
 
-    } ?></span>
+    }
+    ?></span>
     <br>
     <label for="apellidos">Apellidos</label>
-    <input type="text" name="data[apellidos]" >
+    <input type="text" name="data[apellidos]"  pattern="[a-zA-Z]+" title="No se permiten caracteres raros ni etiquetas">
     <span><?php if(isset($_SESSION['errores'])){
         if(isset($_SESSION['errores']['apellidos'])){
             echo $_SESSION['errores']['apellidos'];
         }
 
-    } ?></span>
+    } 
+    ?></span>
     <br>
     <label for="email">Email</label>
-    <input type="email" name="data[email]" >
+    <input type="email" name="data[email]">
     <span><?php if(isset($_SESSION['errores'])){
         if(isset($_SESSION['errores']['email'])){
             echo $_SESSION['errores']['email'];
         }
-
     } ?></span>
     <br>
     <label for="password">Contraseña</label>

@@ -20,7 +20,7 @@
     <input type="hidden" name="data[usuario_id]" value="<?= $id ?>">
     <label for="provincia">Provincia</label>
     <br>
-    <input type="text" name="data[provincia]">
+    <input type="text" name="data[provincia]" pattern="[a-zA-Z]+" title="No se permiten caracteres raros ni etiquetas">
     <span><?php if(isset($_SESSION['errores'])){
                 if(isset($_SESSION['errores']['provincia'])){
                     echo $_SESSION['errores']['provincia'];
@@ -29,7 +29,7 @@
     <br>
     <label for="localidad">Localidad</label>
     <br>
-    <input type="text" name="data[localidad]">
+    <input type="text" name="data[localidad]" pattern="[a-zA-Z]+" title="No se permiten caracteres raros ni etiquetas">
     <span><?php if(isset($_SESSION['errores'])){
                 if(isset($_SESSION['errores']['localidad'])){
                     echo $_SESSION['errores']['localidad'];
@@ -38,7 +38,7 @@
     <br>
     <label for="direccion">Dirección</label>
     <br>
-    <input type="text" name="data[direccion]">
+    <input type="text" name="data[direccion]" pattern="^[a-zA-Z0-9\s\.\#\-]+$" title="No se permiten caracteres raros ni etiquetas">
     <span><?php if(isset($_SESSION['errores'])){
                 if(isset($_SESSION['errores']['direccion'])){
                     echo $_SESSION['errores']['direccion'];

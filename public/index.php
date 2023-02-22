@@ -98,6 +98,21 @@
         (new ProductoController()) -> crear_producto();
     });
 
+    Router::add('GET','editar_producto',function(){
+        (new ProductoController()) -> editar_producto();
+    });
+    Router::add('POST','editar_producto',function(){
+        (new ProductoController()) -> editar_producto();
+    });
+
+    Router::add('GET','eliminar_producto',function(){
+        (new ProductoController()) -> borrar_producto();
+    });
+    Router::add('POST','eliminar_producto',function(){
+        (new ProductoController()) -> borrar_producto();
+    });
+
+
     // EDITAR DATOS
 
     

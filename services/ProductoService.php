@@ -18,7 +18,7 @@
                 return $this-> repository -> getAll();
             }
 
-            public function editar_producto($data):void{
+            public function editar_producto(array $data):void{
                 // Funcion para editar productos que usa el metodo del repositorio editar_productos
                 $this -> repository -> editar_producto($data);
             }
@@ -39,11 +39,13 @@
                 return $this -> repository -> buscarProducto($cod);
             }
 
-
-
-            public function borrar_productos($data):void{
-                // Funcion para borrar productos que usa el metodo del repositorio borrar_productos
-                $this -> repository -> borrar_productos($data);
+            public function sacarNombre($id):?array{
+                return $this -> repository -> sacarNombre($id);
             }
+
+            // public function borrar_productos($data):void{
+            //     // Funcion para borrar productos que usa el metodo del repositorio borrar_productos
+            //     $this -> repository -> borrar_productos($data);
+            // }
         }
 ?>

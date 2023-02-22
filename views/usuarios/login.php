@@ -4,7 +4,7 @@
 <form action="<?= $_ENV['BASE_URL']?>usuarios_loguear" method="post">
 
     <label for="email">Email</label>
-    <input type="email" name="data[email]" required>
+    <input type="email" name="data[email]">
     <span><?php if(isset($_SESSION['errores'])){
         if(isset($_SESSION['errores']['email'])){
             echo $_SESSION['errores']['email'];

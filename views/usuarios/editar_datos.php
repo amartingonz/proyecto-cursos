@@ -10,10 +10,10 @@
 <h2>Editar Datos de Usuario</h2>
 <form action="<?= $_ENV['BASE_URL']?>editar_datos" method="post">
 
-    <input type="hidden" name="data[id_usuario]" value="<?= $datos ?>">
+    <input type="hidden" name="data[id_usuario]" value="<?= $datos ?>" pattern="[a-zA-Z]+" title="No se permiten caracteres raros ni etiquetas">
     <label for="nombre">Nombre</label>
     <br>
-    <input type="nombre" name="data[nombre]">
+    <input type="nombre" name="data[nombre]" >
     <span><?php if(isset($_SESSION['errores'])){
         if(isset($_SESSION['errores']['nombre'])){
             echo $_SESSION['errores']['nombre'];
@@ -22,7 +22,7 @@
     <br>
     <label for="apellidos">Apellidos</label>
     <br>
-    <input type="apellidos" name="data[apellidos]">
+    <input type="apellidos" name="data[apellidos]" pattern="[a-zA-Z]+" title="No se permiten caracteres raros ni etiquetas">
     <span><?php if(isset($_SESSION['errores'])){
         if(isset($_SESSION['errores']['apellidos'])){
             echo $_SESSION['errores']['apellidos'];

@@ -14,7 +14,7 @@
         }
 
         public function borrar_producto($id):bool{
-            $sql = ("DELETE FROM productos WHERE id=:id");
+            $sql = ("UPDATE productos SET stock = 0 WHERE id=:id");
             $consult = $this -> conexion -> prepara($sql);
             $consult -> bindParam(':id',$id,PDO::PARAM_INT);
             try{
@@ -53,6 +53,46 @@
                 // return false;
             }
         }
+
+        public function editar_producto(array $data):void {
+            //Funcion para editar productos pasandole el array recogido del formulario
+            $sql = ("UPDATE productos SET descripcion=:descripcion,precio=:precio,stock=:stock,oferta=:oferta,fecha=:fecha,imagen=:imagen WHERE id=:id;");
+            $fecha = date("Y-m-d");
+            $archivo = $_FILES['data']['name'];
+
+            
+            $precio = ($data['precio']) - ($data['precio'] * $data['oferta'] / 100);
+            $consult = $this -> conexion -> prepara($sql);
+
+            $consult -> bindParam(':id',$data['id'],PDO::PARAM_INT);
+            $consult -> bindParam(':descripcion',$data['descripcion'],PDO::PARAM_STR);
+            $consult -> bindParam(':precio',$precio,PDO::PARAM_STR);
+            $consult -> bindParam(':stock',$data['stock'],PDO::PARAM_STR);
+            $consult -> bindParam(':oferta',$data['oferta'],PDO::PARAM_STR);
+            $consult -> bindParam(':fecha',$fecha,PDO::PARAM_STR);
+            $consult -> bindParam(':imagen',$archivo['imagen'],PDO::PARAM_STR);
+
+            try{
+                // var_dump($data);die();
+                $consult -> execute();
+                // return true;
+                
+            }catch(PDOException $err){
+                echo "Error".$err -> getMessage();
+                // return false;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
 
         public function getAll():? array{
             //Consulta para extraer todos los campos de productos
@@ -98,6 +138,12 @@
                 $productos[] = Productos::fromArray($ProductoData);
             }
             return $productos;
+        }
+
+        public function sacarNombre($data){
+            $sql = ("SELECT nombre FROM productos WHERE id = $data");
+            $this -> conexion -> consulta($sql);
+            return $this -> conexion -> extraer_todos();
         }
 
         public function filasAfectadas(){

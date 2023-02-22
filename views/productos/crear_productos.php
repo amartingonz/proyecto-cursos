@@ -20,7 +20,7 @@
     <br>
     <label for="nombre">Nombre</label>
     <br>
-    <input type="text" name="data[nombre]">
+    <input type="text" name="data[nombre]" pattern="[a-zA-Z]+" title="No se permiten caracteres raros ni etiquetas">
     <span><?php if(isset($_SESSION['errores'])){
         if(isset($_SESSION['errores']['nombre'])){
             echo $_SESSION['errores']['nombre'];
@@ -29,7 +29,7 @@
     <br>
     <label for="descripcion">Descripcion</label>
     <br>
-    <textarea type="text" name="data[descripcion]"></textarea>
+    <textarea type="text" name="data[descripcion]" pattern="[a-zA-Z]+" title="No se permiten caracteres raros ni etiquetas"></textarea>
     <span><?php if(isset($_SESSION['errores'])){
         if(isset($_SESSION['errores']['descripcion'])){
             echo $_SESSION['errores']['descripcion'];
@@ -38,11 +38,11 @@
     <br>
     <label for="precio">Precio</label>
     <br>
-    <input type="number" name="data[precio]">
+    <input type="number" name="data[precio]" min="1">
     <br>
     <label for="stock">Stock</label>
     <br>
-    <input type="number" name="data[stock]">
+    <input type="number" name="data[stock]" min="1">
     <br>
     <label for="oferta">Oferta</label>
     <br>
@@ -54,7 +54,7 @@
     <br>
     <label for="imagen">Imagen</label>
     <br>
-    <input type="file" name="data[imagen]">
+    <input type="file" name="data[imagen]" required>
     <br>
     <input type="submit" value="Crear">
 </form>
