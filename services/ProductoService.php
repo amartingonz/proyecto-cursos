@@ -43,9 +43,9 @@
                 return $this -> repository -> sacarNombre($id);
             }
 
-            // public function borrar_productos($data):void{
-            //     // Funcion para borrar productos que usa el metodo del repositorio borrar_productos
-            //     $this -> repository -> borrar_productos($data);
-            // }
+            public function borrar_productos($id):void{
+                // Funcion para borrar productos que usa el metodo del repositorio borrar_productos
+                $this -> repository -> borrar_producto($id) ;
+            }
         }
 ?>

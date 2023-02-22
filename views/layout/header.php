@@ -51,6 +51,7 @@
                 <li><a href="<?= $_ENV['BASE_URL']?>crear_categoria">Crear Categorias</a></li>
                 <li><a href="<?= $_ENV['BASE_URL']?>crear_producto">Crear Productos</a></li>
                 <li><a href="<?= $_ENV['BASE_URL']?>editar_producto">Editar Productos</a></li>
+                <li><a href="<?= $_ENV['BASE_URL']?>eliminar_producto">Eliminar Productos</a></li>
                 <li><a href="<?= $_ENV['BASE_URL']?>editar_datos">Editar Datos</a></li>
                 <li><a href="<?= $_ENV['BASE_URL']?>cerrar_sesion">cerrar sesion</a></li>
             </ul>

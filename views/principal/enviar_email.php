@@ -30,11 +30,15 @@ try {
     $mail->setFrom('perrobuenpito@gmail.com', 'TIENDA');
     $mail->addAddress($email);     //Add a recipient
     $mail->addAddress('perrobuenpito@gmail.com');
-   
+    foreach($productos as $producto){
+        if(isset($_SESSION['carrito'][$producto['id']]))
+                $mensaje2 .= "<br> Nombre del producto: ".$producto['nombre']."<br> Unidades: ". $_SESSION['carrito'][$producto['id']]."<br>";
+    }
+        
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
     $mail->Subject = 'PEDIDO NUMERO: '.$n_pedido;
-    $mail->Body    = "Nombre: ".$_SESSION['nombre']."<br>"."Precio Total: ".$precio_total."€";
+    $mail->Body    = "Gracias por confiar en nosotros! <br> Estimado ".$_SESSION['nombre']."<br>"." El precio Total es de ".$precio_total."€ <br> El pedido que se ha realizado se ha enviado a la siguiente dirección: ".$datos['direccion']."<br> En la provincia de ".$datos['provincia']."(".$datos['localidad'].")<br> Gracias".$mensaje2;
     
     $mail->send();
     //echo 'El mensaje se envió correctamente al siguiente email: '.$email;

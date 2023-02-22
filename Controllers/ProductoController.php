@@ -30,10 +30,14 @@
             // CREAR LUEGO LA FUNCION PARA BORRARLA.
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $id = $_POST['id'];
-                
+                $this -> service -> borrar_productos($id);
+                $productos = $this -> service -> getAll();
+                $this -> pages -> render('productos/eliminar_productos', ["productos" => $productos]);
+                header('Location:'.$_ENV['BASE_URL']);
 
             }else{
-
+                $productos = $this -> service -> getAll();
+                $this -> pages -> render('productos/eliminar_productos', ["productos" => $productos]);
             }
         }
 

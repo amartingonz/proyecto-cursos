@@ -51,6 +51,11 @@
     }else{
         $_SESSION['total'] = $total;
     }
+    if(!isset($_SESSION['total_unidades'])){
+        $_SESSION['total_unidades'] = $total_unidades;
+    }else{
+        $_SESSION['total_unidades'] = $total_unidades;
+    }
 ?>
 <br>
 <a href="comprobarPedido">Realizar pedido</a>

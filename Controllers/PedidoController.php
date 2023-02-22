@@ -3,18 +3,23 @@
 namespace Controllers;
 use Lib\Pages;
 use Models\Pedidos;
+use Models\Productos;
 use Services\PedidoService;
 use Utils\Utils;
+use Services\ProductoService;
+
 
 class PedidoController{
     private PedidoService $service;
     private Pages $pages;
     private Utils $utils;
+    private ProductoService $servicep;
 
     public function __construct(){
         $this -> pages = new Pages();
         $this -> service = new PedidoService();
         $this -> utils = new Utils();
+        $this -> servicep = new ProductoService();
     }
 
 
@@ -31,9 +36,9 @@ class PedidoController{
         }
     }
 
-    public function enviar_email($email,$precio_total,$n_pedido){
+    public function enviar_email($email,$precio_total,$n_pedido,$datos,$productos){
         // Funcion que lleva al render de enviar email pasandole los parametros para rellenarlos con los datos que se piden
-        $this -> pages -> render('principal/enviar_email',["email" => $email,"precio_total" => $precio_total, "n_pedido" => $n_pedido]);
+        $this -> pages -> render('principal/enviar_email',["email" => $email,"precio_total" => $precio_total, "n_pedido" => $n_pedido, "datos" => $datos, "productos" => $productos]);
     }
 
     public function consultar_pedidos(){
@@ -47,6 +52,7 @@ class PedidoController{
         // Funcion que crea el pedido, y la linea de pedido, además se envia el email si se ha introducido correctamente todo.
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $datos = $_POST['data'];
+
             $errores = $this -> utils -> validar_crearPedido($datos);
             if($this -> utils -> sinErrorescrearPedido($errores)){
                 $this -> service -> crear_pedido($datos);
@@ -59,7 +65,8 @@ class PedidoController{
                     $email = $_SESSION['email'];
                     $precio_total = $_SESSION['total'];
                     header("Location:".$_ENV['BASE_URL']);
-                    $this -> enviar_email($email,$precio_total,$ultima_id);
+                    $productos = $this -> servicep -> getAll();
+                    $this -> enviar_email($email,$precio_total,$ultima_id,$datos,$productos);
                     $this -> pages -> render('layout/mensaje',["mensaje" => "Pedido realizado con éxito"]);
                     $_SESSION['carrito'] = [];
                 }else{
